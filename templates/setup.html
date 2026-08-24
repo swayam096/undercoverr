@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Undercover — New Case{% endblock %}
+{% block casetag %}NEW CASE{% endblock %}
+{% block content %}
+<p class="eyebrow">Case File · New Game</p>
+<h1>Undercover</h1>
+<p class="sub">Civilians share a word. Undercover gets a lookalike. Mr. White gets nothing — and one shot to guess it when they're caught.</p>
+
+<div class="card">
+  {% if errors %}
+    <div class="errors">
+      {% for e in errors %}{{ e }}<br>{% endfor %}
+    </div>
+  {% endif %}
+  <form method="POST" action="{{ url_for('names') }}">
+    <label for="num_players">Players</label>
+    <input type="number" id="num_players" name="num_players" min="3" max="20" value="{{ num_players or 6 }}" required>
+
+    <div class="row3">
+      <div>
+        <label for="num_undercover">Undercover</label>
+        <input type="number" id="num_undercover" name="num_undercover" min="0" max="10" value="{{ num_undercover | default(1, true) }}" required>
+      </div>
+      <div>
+        <label for="num_mrwhite">Mr. White</label>
+        <input type="number" id="num_mrwhite" name="num_mrwhite" min="0" max="5" value="{{ num_mrwhite | default(1, true) }}" required>
+      </div>
+      <div>
+        <label for="category">Genre</label>
+        <select id="category" name="category">
+          {% for c in categories %}
+            <option value="{{ c }}" {% if category == c %}selected{% endif %}>{{ c|capitalize }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-primary">Next: Add Players →</button>
+  </form>
+</div>
+<p class="hint">Civilians must always outnumber Undercover + Mr. White combined.</p>
+{% endblock %}

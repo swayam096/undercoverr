@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Undercover — Name the Suspects{% endblock %}
+{% block casetag %}{{ num_players }} PLAYERS{% endblock %}
+{% block content %}
+<p class="eyebrow">Case File · Roster</p>
+<h1>Name the players</h1>
+<p class="sub">Optional — leave blank and we'll number them.</p>
+
+<div class="card">
+  <form method="POST" action="{{ url_for('start') }}">
+    {% for i in range(1, num_players + 1) %}
+      <label for="name_{{ i }}">Player {{ i }}</label>
+      <input type="text" id="name_{{ i }}" name="name_{{ i }}" placeholder="Player {{ i }}" maxlength="20" list="known-names">
+    {% endfor %}
+    <button type="submit" class="btn-primary">Deal the Words →</button>
+  </form>
+
+  {% if known_names %}
+    <datalist id="known-names">
+      {% for n in known_names %}<option value="{{ n }}">{% endfor %}
+    </datalist>
+  {% endif %}
+</div>
+<p class="hint"><a href="{{ url_for('leaderboard') }}">View all-time leaderboard</a></p>
+{% endblock %}

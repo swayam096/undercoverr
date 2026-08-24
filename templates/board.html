@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Undercover — The Table{% endblock %}
+{% block casetag %}ROUND {{ round_num }}/{{ total_rounds }}{% endblock %}
+{% block content %}
+<p class="eyebrow">Round {{ round_num }} / {{ total_rounds }} · Interrogation</p>
+<h1>The Table</h1>
+<p class="sub">Everyone describes their word, one round of clues at a time. When the table votes someone out, mark them here.</p>
+
+<div class="round-track">
+  {% for r in range(1, total_rounds + 1) %}
+    <span class="dot {% if r < round_num %}done{% elif r == round_num %}current{% endif %}"></span>
+  {% endfor %}
+</div>
+
+<div class="card">
+  {% if starter %}
+    <p class="spotlight" style="text-align:left; margin-bottom:14px;">
+      ROUND STARTS WITH → <span style="color:var(--stamp);">{{ starter }}</span>
+    </p>
+  {% endif %}
+  {% if turn_order %}
+    <p class="sub" style="text-align:left; margin-bottom:14px;">
+      Speaking order: {{ turn_order|join(' → ') }}
+    </p>
+  {% endif %}
+  <div class="status-bar">
+    <span class="status-chip"><b>{{ players|selectattr('alive')|list|length }}</b>&nbsp;in play</span>
+    <span class="status-chip"><b>{{ players|length }}</b>&nbsp;total</span>
+  </div>
+
+  <ul class="suspects">
+    {% for p in players %}
+      <li class="suspect {% if not p.alive %}out{% endif %}">
+        <span class="suspect-name">
+          <span class="avatar avatar-{{ loop.index0 % 5 }}">{{ p.name[0]|upper }}</span>
+          {{ p.name }}
+        </span>
+        {% if p.alive %}
+          <form method="POST" action="{{ url_for('eliminate', pid=p.id) }}" style="margin:0;">
+            <button type="submit" class="out-btn">Vote Out</button>
+          </form>
+        {% else %}
+          <span class="suspect-role">
+            <span class="role-dot {{ p.role }}"></span>{{ p.role }}
+          </span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+<a href="{{ url_for('restart') }}" class="btn btn-ghost" style="margin-top:16px;">Abandon Case &amp; Restart</a>
+{% endblock %}

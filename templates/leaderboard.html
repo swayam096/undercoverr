@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Undercover — Leaderboard{% endblock %}
+{% block casetag %}STANDINGS{% endblock %}
+{% block content %}
+<p class="eyebrow">Case File · Standings</p>
+<h1>Leaderboard</h1>
+<p class="sub">Points carry across games. Civilians +1 for a win, Undercover/Mr. White +2 for surviving to a win, Mr. White +3 for a correct guess.</p>
+
+<div class="card">
+  {% if ranked %}
+    <div class="roster">
+      {% for name, rec in ranked %}
+        <div class="roster-row">
+          <span class="roster-name">
+            <span class="avatar avatar-{{ loop.index0 % 5 }}">{{ name[0]|upper }}</span>
+            <span>{{ name }}</span>
+          </span>
+          <span class="roster-role">{{ rec.points }} pts</span>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="hint">No games played yet.</p>
+  {% endif %}
+  <a href="{{ url_for('home') }}" class="btn btn-primary">Start a Game</a>
+</div>
+{% endblock %}

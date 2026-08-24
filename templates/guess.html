@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Undercover — Mr. White's Guess{% endblock %}
+{% block casetag %}FINAL SHOT{% endblock %}
+{% block content %}
+<p class="eyebrow">Case File · Final Shot</p>
+<h1>{{ player.name }} was Mr. White</h1>
+<p class="sub">One guess at the civilians' word. Get it right and Mr. White wins on the spot.</p>
+
+<div class="card">
+  <form method="POST" action="{{ url_for('guess', pid=player.id) }}">
+    <label for="guess">Guess the word</label>
+    <input type="text" id="guess" name="guess" placeholder="Type your guess..." autofocus required>
+    <button type="submit" class="btn-danger">Lock In Guess</button>
+  </form>
+</div>
+{% endblock %}

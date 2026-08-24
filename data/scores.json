@@ -1,0 +1,26 @@
+{
+  "akshat": {
+    "points": 4,
+    "civilian": 0,
+    "undercover": 1,
+    "mrwhite": 1
+  },
+  "aadexh": {
+    "points": 0,
+    "civilian": 2,
+    "undercover": 0,
+    "mrwhite": 0
+  },
+  "swayam": {
+    "points": 0,
+    "civilian": 1,
+    "undercover": 1,
+    "mrwhite": 0
+  },
+  "yaju": {
+    "points": 2,
+    "civilian": 1,
+    "undercover": 0,
+    "mrwhite": 1
+  }
+}

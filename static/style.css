@@ -1,0 +1,699 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --bg:#0c0e13;
+  --folder:#1a1d27;
+  --folder-2:#20242f;
+  --folder-3:#262b39;
+  --line:#2b3040;
+  --line-soft:#232734;
+  --ink:#eef0f5;
+  --muted:#838ba1;
+  --muted-dim:#565d70;
+
+  --stamp:#e8b04b;
+  --stamp-dim:#a8802f;
+  --stamp-ink:#1a1206;
+
+  --alert:#e05a63;
+  --alert-dim:#7a2e34;
+  --clear:#57bd8a;
+  --clear-dim:#2f5f45;
+
+  --redact:#080809;
+
+  --shadow-lg:0 30px 60px -30px rgba(0,0,0,0.7);
+  --shadow-sm:0 10px 24px -14px rgba(0,0,0,0.55);
+}
+
+*{box-sizing:border-box;}
+::selection{ background:var(--stamp); color:var(--stamp-ink); }
+
+html{ -webkit-tap-highlight-color:transparent; }
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 18% -10%, rgba(232,176,75,0.10), transparent 55%),
+    radial-gradient(circle at 100% 10%, rgba(87,189,138,0.05), transparent 45%),
+    var(--bg);
+  color:var(--ink);
+  font-family:'Inter', sans-serif;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:0 16px 48px;
+  position:relative;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:0.035;
+  z-index:0;
+  background-image:
+    repeating-linear-gradient(0deg, #fff 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, #fff 0 1px, transparent 1px 3px);
+  mix-blend-mode:overlay;
+}
+
+.wrap{
+  width:100%;
+  max-width:480px;
+  position:relative;
+  z-index:1;
+}
+
+/* ============================================================
+   MASTHEAD (persistent chrome, base.html)
+   ============================================================ */
+.masthead{
+  width:100%;
+  max-width:480px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:22px 2px 16px;
+  position:relative;
+  z-index:1;
+}
+.mark{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.mark-badge{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:1.5px solid var(--stamp);
+  color:var(--stamp);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'JetBrains Mono', monospace;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:-0.02em;
+  transform:rotate(-8deg);
+  flex-shrink:0;
+}
+.mark-text{
+  font-family:'JetBrains Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--muted);
+  line-height:1.4;
+}
+.mark-text b{
+  display:block;
+  color:var(--ink);
+  font-size:13px;
+  letter-spacing:0.1em;
+}
+.case-tag{
+  font-family:'JetBrains Mono', monospace;
+  font-size:10.5px;
+  letter-spacing:0.08em;
+  color:var(--muted-dim);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:5px 10px;
+  white-space:nowrap;
+}
+
+.perforation{
+  width:100%;
+  max-width:480px;
+  height:1px;
+  background-image:repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 12px);
+  margin-bottom:26px;
+  position:relative;
+  z-index:1;
+}
+
+/* ============================================================
+   TYPE
+   ============================================================ */
+.eyebrow{
+  font-family:'JetBrains Mono', monospace;
+  font-size:11.5px;
+  font-weight:500;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--stamp);
+  margin:0 0 10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.eyebrow::before{
+  content:"";
+  width:14px;
+  height:1px;
+  background:var(--stamp-dim);
+  display:inline-block;
+}
+
+h1{
+  font-family:'Space Grotesk', sans-serif;
+  font-weight:700;
+  font-size:34px;
+  letter-spacing:-0.015em;
+  line-height:1.08;
+  margin:0 0 8px;
+}
+
+.sub{
+  color:var(--muted);
+  font-size:14.5px;
+  margin:0 0 26px;
+  line-height:1.55;
+  max-width:44ch;
+}
+
+/* ============================================================
+   CARD
+   ============================================================ */
+.card{
+  background:linear-gradient(180deg, var(--folder) 0%, var(--folder) 100%);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:26px 24px;
+  box-shadow:var(--shadow-lg);
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:"";
+  position:absolute;
+  top:0; left:24px;
+  width:46px; height:5px;
+  background:var(--stamp);
+  border-radius:0 0 4px 4px;
+  opacity:0.85;
+}
+
+/* ============================================================
+   FORM CONTROLS
+   ============================================================ */
+label{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  font-family:'JetBrains Mono', monospace;
+  font-weight:500;
+  letter-spacing:0.08em;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin:20px 0 7px;
+}
+label:first-of-type{margin-top:0;}
+
+input[type=number], input[type=text], select{
+  width:100%;
+  background:var(--folder-2);
+  border:1px solid var(--line);
+  color:var(--ink);
+  font-family:'Inter', sans-serif;
+  font-size:15.5px;
+  font-weight:500;
+  padding:13px 15px;
+  border-radius:10px;
+  outline:none;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+input::placeholder{ color:var(--muted-dim); font-weight:400; }
+input:focus, select:focus{
+  border-color:var(--stamp);
+  box-shadow:0 0 0 3px rgba(232,176,75,0.14);
+}
+select{ appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23838ba1'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 15px center;
+  padding-right:32px;
+}
+
+.row3{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+}
+@media (max-width:380px){
+  .row3{ grid-template-columns:1fr; }
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+button, .btn{
+  width:100%;
+  border:none;
+  border-radius:10px;
+  padding:15px 18px;
+  font-family:'Space Grotesk', sans-serif;
+  font-weight:700;
+  font-size:15px;
+  letter-spacing:-0.005em;
+  cursor:pointer;
+  margin-top:12px;
+  transition:transform .12s ease, opacity .15s ease, filter .15s ease;
+  text-align:center;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+button:active, .btn:active{ transform:scale(0.98); }
+
+.btn-primary{ background:var(--stamp); color:var(--stamp-ink); box-shadow:var(--shadow-sm); }
+.btn-primary:hover{ filter:brightness(1.06); }
+.btn-danger{ background:var(--alert); color:#2a0a0c; box-shadow:var(--shadow-sm); }
+.btn-danger:hover{ filter:brightness(1.06); }
+.btn-ghost{ background:transparent; border:1px solid var(--line); color:var(--ink); }
+.btn-ghost:hover{ border-color:var(--muted-dim); background:rgba(255,255,255,0.02); }
+
+.errors{
+  background:rgba(224,90,99,0.1);
+  border:1px solid var(--alert-dim);
+  color:#ffb0b5;
+  border-radius:10px;
+  padding:13px 15px;
+  font-size:13px;
+  margin-bottom:20px;
+  font-family:'JetBrains Mono', monospace;
+  line-height:1.6;
+}
+
+/* ============================================================
+   REVEAL — flip card / dossier stamp
+   ============================================================ */
+.reveal-stage{ text-align:center; }
+.spotlight{
+  font-family:'JetBrains Mono', monospace;
+  font-size:11.5px;
+  color:var(--muted-dim);
+  letter-spacing:0.18em;
+  margin-bottom:18px;
+}
+.flip-card{
+  perspective:1300px;
+  height:212px;
+  margin-bottom:20px;
+}
+.flip-inner{
+  position:relative;
+  width:100%;
+  height:100%;
+  text-align:center;
+  transition:transform .6s cubic-bezier(.4,.2,.2,1);
+  transform-style:preserve-3d;
+}
+.flip-card.revealed .flip-inner{ transform:rotateY(180deg); }
+
+.flip-front, .flip-back{
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.flip-front{
+  background:
+    repeating-linear-gradient(135deg, rgba(232,176,75,0.07) 0 10px, transparent 10px 20px),
+    var(--folder-2);
+  border:1.5px dashed var(--stamp-dim);
+  cursor:pointer;
+}
+.flip-front .stamp{
+  font-family:'JetBrains Mono', monospace;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:0.18em;
+  color:var(--stamp);
+  border:2px solid var(--stamp);
+  padding:7px 16px;
+  border-radius:6px;
+  transform:rotate(-6deg);
+}
+.flip-back{
+  background:var(--folder-2);
+  border:1px solid var(--stamp-dim);
+  transform:rotateY(180deg);
+  box-shadow:0 0 44px -8px rgba(232,176,75,0.3) inset;
+}
+.flip-back.role-mrwhite{ border-color:var(--muted-dim); box-shadow:0 0 44px -8px rgba(255,255,255,0.06) inset; }
+.flip-back.role-undercover{ border-color:var(--alert-dim); box-shadow:0 0 44px -8px rgba(224,90,99,0.28) inset; }
+
+.role-tag{
+  font-family:'JetBrains Mono', monospace;
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.role-dot{ width:7px; height:7px; border-radius:50%; display:inline-block; }
+.role-dot.civilian{ background:var(--clear); }
+.role-dot.undercover{ background:var(--alert); }
+.role-dot.mrwhite{ background:var(--muted); }
+
+.word{
+  font-family:'Space Grotesk', sans-serif;
+  font-weight:700;
+  font-size:27px;
+  letter-spacing:-0.01em;
+}
+.word.blank{ display:none; }
+
+.redacted-bar{
+  height:20px;
+  width:150px;
+  background:
+    repeating-linear-gradient(-45deg, #000 0 5px, #100e0a 5px 10px),
+    var(--redact);
+  border-radius:3px;
+  margin:2px auto 4px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.5);
+}
+.redacted-note{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:12px;
+  line-height:1.5;
+  max-width:30ch;
+}
+
+/* ============================================================
+   BOARD — suspects
+   ============================================================ */
+.status-bar{
+  display:flex;
+  gap:8px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+.status-chip{
+  font-family:'JetBrains Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.04em;
+  color:var(--muted);
+  background:var(--folder-2);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:6px 12px;
+}
+.status-chip b{ color:var(--ink); font-weight:700; }
+
+.round-track{
+  display:flex;
+  gap:5px;
+  margin-bottom:18px;
+}
+.round-track .dot{
+  height:4px;
+  flex:1;
+  border-radius:3px;
+  background:var(--line);
+}
+.round-track .dot.done{ background:var(--stamp-dim); }
+.round-track .dot.current{ background:var(--stamp); }
+
+.suspects{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+}
+.suspect{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--folder-2);
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:10px 12px;
+  transition:opacity .2s ease;
+}
+.suspect.out{
+  opacity:0.42;
+  background:transparent;
+  border-style:dashed;
+}
+.suspect-name{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-weight:600;
+  font-size:14.5px;
+}
+.avatar{
+  width:30px; height:30px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'JetBrains Mono', monospace;
+  font-size:12px;
+  font-weight:700;
+  color:var(--ink);
+  flex-shrink:0;
+  border:1px solid var(--line-soft);
+}
+.avatar-0{ background:#2c2440; }
+.avatar-1{ background:#1f3a34; }
+.avatar-2{ background:#3a2a1f; }
+.avatar-3{ background:#2a2f42; }
+.avatar-4{ background:#3a2432; }
+
+.suspect-role{
+  font-family:'JetBrains Mono', monospace;
+  font-size:10.5px;
+  text-transform:uppercase;
+  letter-spacing:0.07em;
+  color:var(--muted);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.out-btn{
+  background:transparent;
+  border:1px solid var(--alert-dim);
+  color:var(--alert);
+  font-family:'JetBrains Mono', monospace;
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  padding:8px 13px;
+  border-radius:7px;
+  cursor:pointer;
+  margin:0;
+  width:auto;
+}
+.out-btn:hover{ background:rgba(224,90,99,0.12); }
+
+/* ============================================================
+   RESULT
+   ============================================================ */
+.result-banner{
+  text-align:center;
+  padding:8px 0 6px;
+}
+.result-banner .verdict{
+  font-family:'Space Grotesk', sans-serif;
+  font-weight:700;
+  font-size:29px;
+  margin:8px 0 6px;
+  letter-spacing:-0.01em;
+}
+.verdict.civ{ color:var(--clear); }
+.verdict.uc{ color:var(--alert); }
+.verdict.mw{ color:var(--stamp); }
+
+.roster{
+  margin-top:20px;
+  border-top:1px solid var(--line);
+  padding-top:6px;
+}
+.roster-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  font-size:14px;
+  padding:10px 0;
+  border-bottom:1px solid var(--line-soft);
+}
+.roster-row:last-child{ border-bottom:none; }
+.roster-name{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+.roster-name span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.roster-role{
+  font-family:'JetBrains Mono', monospace;
+  font-size:11px;
+  text-transform:uppercase;
+  color:var(--muted);
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.roster-role .gain{ color:var(--stamp); font-weight:700; }
+.roster-role .crown{ margin-left:2px; }
+
+/* ============================================================
+   FRIDAY — end-of-match debrief
+   ============================================================ */
+.debrief{
+  margin-top:20px;
+  border-top:1px solid var(--line);
+  padding-top:18px;
+}
+.debrief-head{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-bottom:12px;
+}
+.debrief-avatar{
+  width:26px; height:26px;
+  border-radius:50%;
+  background:var(--folder-3);
+  border:1px solid var(--stamp-dim);
+  color:var(--stamp);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'JetBrains Mono', monospace;
+  font-weight:700;
+  font-size:11px;
+  flex-shrink:0;
+}
+.debrief-label{
+  font-family:'JetBrains Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.debrief-intro{
+  font-size:14.5px;
+  font-style:italic;
+  color:var(--ink);
+  margin:0 0 18px;
+  line-height:1.55;
+  padding-left:2px;
+  border-left:2px solid var(--stamp-dim);
+  padding-left:12px;
+}
+.badge-row{
+  padding:12px 0;
+  border-bottom:1px solid var(--line-soft);
+}
+.badge-row:last-child{ border-bottom:none; }
+.badge-title-line{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:4px;
+}
+.badge-title{
+  font-family:'Space Grotesk', sans-serif;
+  font-weight:700;
+  font-size:14.5px;
+  color:var(--stamp);
+}
+.badge-name{
+  font-family:'JetBrains Mono', monospace;
+  font-size:10.5px;
+  letter-spacing:0.04em;
+  color:var(--muted);
+  white-space:nowrap;
+}
+.badge-quip{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.5;
+  margin:0;
+}
+
+/* ============================================================
+   FRIDAY — mid-match round comment (compact version of debrief)
+   ============================================================ */
+.round-comment{
+  margin-top:18px;
+  border-top:1px solid var(--line);
+  padding-top:14px;
+}
+.round-comment .debrief-head{ margin-bottom:8px; }
+.round-comment .debrief-intro{
+  margin:0;
+  font-size:13.5px;
+}
+
+/* ============================================================
+   FRIDAY — Mr. White pre-round hint
+   ============================================================ */
+.mrwhite-hint{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px dashed var(--stamp-dim);
+  max-width:32ch;
+}
+.mrwhite-hint p{
+  font-size:12.5px;
+  color:var(--muted);
+  line-height:1.5;
+  margin:0;
+  text-align:left;
+}
+.mrwhite-hint .debrief-avatar{
+  width:22px; height:22px;
+  font-size:10px;
+}
+
+/* ============================================================
+   MISC
+   ============================================================ */
+.hint{
+  font-size:12.5px;
+  color:var(--muted);
+  text-align:center;
+  margin-top:16px;
+  line-height:1.5;
+}
+.hint a{ color:var(--stamp); text-decoration:none; border-bottom:1px solid var(--stamp-dim); }
+.hint a:hover{ border-color:var(--stamp); }
+
+@media (prefers-reduced-motion: reduce){
+  .flip-inner{ transition:none; }
+  button, .btn{ transition:none; }
+}

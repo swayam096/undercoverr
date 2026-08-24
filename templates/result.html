@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Undercover — Case Closed{% endblock %}
+{% block casetag %}CASE CLOSED{% endblock %}
+{% block content %}
+<p class="eyebrow">Round {{ round_num }} / {{ total_rounds }} · Case Closed</p>
+<h1>Case Closed</h1>
+
+<div class="card">
+  <div class="result-banner">
+    {% if winner == 'civilians' %}
+      <p class="spotlight">VERDICT</p>
+      <p class="verdict civ">Civilians Win</p>
+      <p class="sub" style="margin:0 auto;">Every Undercover and Mr. White was caught.</p>
+    {% elif winner == 'undercover' %}
+      <p class="spotlight">VERDICT</p>
+      <p class="verdict uc">Undercover Wins</p>
+      <p class="sub" style="margin:0 auto;">They blended in long enough to take control.</p>
+    {% else %}
+      <p class="spotlight">VERDICT</p>
+      <p class="verdict mw">Mr. White Wins</p>
+      <p class="sub" style="margin:0 auto;">Guessed the word: <b>{{ civ_word }}</b></p>
+    {% endif %}
+  </div>
+
+  <div class="roster">
+    {% for p in players %}
+      <div class="roster-row">
+        <span class="roster-name">
+          <span class="avatar avatar-{{ loop.index0 % 5 }}">{{ p.name[0]|upper }}</span>
+          <span>{{ p.name }}{% if not p.alive %} <span style="color:var(--muted);">(out)</span>{% endif %}</span>
+        </span>
+        <span class="roster-role">
+          <span class="role-dot {{ p.role }}"></span>
+          {{ p.role }}{% if p.role != 'mrwhite' %} · {{ p.word }}{% endif %}
+          {% if gained.get(p.name) %} · <span class="gain">+{{ gained[p.name] }}</span>{% endif %}
+        </span>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if is_final_round %}
+    <p class="spotlight" style="margin-top:18px;">MATCH OVER — {{ total_rounds }} ROUNDS PLAYED</p>
+
+    {% if debrief %}
+      <div class="debrief">
+        <div class="debrief-head">
+          <span class="debrief-avatar">F</span>
+          <span class="debrief-label">Friday · Case Analyst</span>
+        </div>
+        <p class="debrief-intro">&ldquo;{{ debrief.intro }}&rdquo;</p>
+        {% for b in debrief.badges %}
+          <div class="badge-row">
+            <div class="badge-title-line">
+              <span class="badge-title">{{ b.title }}</span>
+              <span class="badge-name">{{ b.name }}</span>
+            </div>
+            <p class="badge-quip">{{ b.quip }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="roster">
+      {% for name, pts in ranked_totals %}
+        <div class="roster-row">
+          <span class="roster-name"><span>{{ loop.index }}. {{ name }}</span>{% if loop.first %}<span class="crown">👑</span>{% endif %}</span>
+          <span class="roster-role">{{ pts }} pts</span>
+        </div>
+      {% endfor %}
+    </div>
+    <a href="{{ url_for('restart') }}" class="btn btn-primary">New Case</a>
+    <form method="POST" action="{{ url_for('rematch') }}" style="margin:0;">
+      <button type="submit" class="btn-ghost">New 10-Round Match — Same Players</button>
+    </form>
+  {% else %}
+    {% if round_comment %}
+      <div class="round-comment">
+        <div class="debrief-head">
+          <span class="debrief-avatar">F</span>
+          <span class="debrief-label">Friday · Case Analyst</span>
+        </div>
+        <p class="debrief-intro">&ldquo;{{ round_comment }}&rdquo;</p>
+      </div>
+    {% endif %}
+    <a href="{{ url_for('restart') }}" class="btn btn-primary">New Case</a>
+    <form method="POST" action="{{ url_for('rematch') }}" style="margin:0;">
+      <button type="submit" class="btn-ghost">Next Round ({{ round_num + 1 }}/{{ total_rounds }})</button>
+    </form>
+  {% endif %}
+  <a href="{{ url_for('leaderboard') }}" class="btn btn-ghost">View Leaderboard</a>
+</div>
+{% endblock %}

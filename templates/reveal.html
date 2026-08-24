@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Undercover — Pass the Device{% endblock %}
+{% block casetag %}{{ idx }}/{{ total }} BRIEFED{% endblock %}
+{% block content %}
+<p class="eyebrow">Round {{ round_num }} / {{ total_rounds }} · Briefing {{ idx }} / {{ total }}</p>
+<h1>{{ player.name }}</h1>
+<p class="sub">Make sure only <b>{{ player.name }}</b> is looking, then tap the folder below.</p>
+
+<div class="card reveal-stage">
+  <p class="spotlight">— CONFIDENTIAL —</p>
+
+  <div class="flip-card" id="flipCard">
+    <div class="flip-inner">
+      <div class="flip-front">
+        <div class="stamp">TAP TO REVEAL</div>
+      </div>
+      <div class="flip-back role-{{ player.role }}">
+        {% if player.role == 'mrwhite' %}
+          <div class="role-tag"><span class="role-dot mrwhite"></span>Your Assignment: MR. WHITE</div>
+          <div class="redacted-bar"></div>
+          <div class="redacted-note">No word assigned. Blend in, then guess the civilians' word if you're caught.</div>
+          {% if mrwhite_hint %}
+            <div class="mrwhite-hint">
+              <span class="debrief-avatar">F</span>
+              <p>&ldquo;{{ mrwhite_hint }}&rdquo;</p>
+            </div>
+          {% endif %}
+        {% elif player.role == 'undercover' %}
+          <div class="role-tag"><span class="role-dot undercover"></span>Your Assignment: UNDERCOVER</div>
+          <div class="word">{{ player.word }}</div>
+          <div class="sub" style="margin-top:8px;">Your word is close to the civilians' — but not the same. Blend in.</div>
+        {% else %}
+          <div class="role-tag"><span class="role-dot civilian"></span>Your Assignment: CIVILIAN</div>
+          <div class="word">{{ player.word }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <form method="POST" action="{{ url_for('reveal_next') }}" id="nextForm" style="display:none;">
+    <button type="submit" class="btn-primary">Hide &amp; Pass to Next Player</button>
+  </form>
+  <p class="hint" id="tapHint">Tap the card to see your word.</p>
+</div>
+
+<script>
+  const card = document.getElementById('flipCard');
+  const nextForm = document.getElementById('nextForm');
+  const tapHint = document.getElementById('tapHint');
+  card.addEventListener('click', () => {
+    card.classList.toggle('revealed');
+    if (card.classList.contains('revealed')) {
+      nextForm.style.display = 'block';
+      tapHint.textContent = 'Tap again to hide before passing the device.';
+    } else {
+      tapHint.textContent = 'Tap the card to see your word.';
+    }
+  });
+</script>
+{% endblock %}
